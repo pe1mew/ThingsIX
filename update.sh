@@ -2,7 +2,7 @@
 
 # Script for auto updating the ThinsIX forwarder to that latest release.
 #
-# These scripts have been inspired by the scriots of Wheaties466:
+# These scripts have been inspired by the scripts of Wheaties466:
 # https://github.com/Wheaties466/helium_miner_scripts/blob/master/miner_latest.sh
 # Where Wheaties466 has not applied a license, this script is published
 # under a Creative Commons Attribution-NonCommercial 4.0 International License.
