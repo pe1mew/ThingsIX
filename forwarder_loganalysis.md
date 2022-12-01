@@ -2,12 +2,12 @@
 When the forwarder is running in a Docker container we need Docker to see activity on the forwarder.
 
 ## Show live log
-To start watching the actual activity use the following command: 
+To start watching the actual activity of teh forwarder use the following command: 
 ```
 docker logs thingsix-forwarder -n 0 -f
 
 ```
-This command will 'follow' the log and will present 0 previous entries in the log. 
+This command will 'follow' the log and will present 0 previous entries in the log at start. 
 
 ## Filter a log
 To filter the log ***grep*** is being used:
