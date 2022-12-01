@@ -51,6 +51,10 @@ do
    esac
 done
 
+# print date
+
+date
+
 # Autodetect running image version and set arch
 version_running_image=$(docker container inspect -f '{{.Config.Image}}' $FORWARDER | awk -F: '{print $2}')
 
