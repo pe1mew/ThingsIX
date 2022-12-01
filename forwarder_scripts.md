@@ -26,7 +26,7 @@ This script will remove all installed forwarders and cleanup docker containers.
 
 ## update_forwarder.sh
 
-## Note: 
+### Note: 
  - forwarder will connect to test network
  - gateway port 1690 will be configured
  - config file __my-test-config.yaml__ will be used
