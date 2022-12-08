@@ -27,6 +27,7 @@
 
 # Set default values
 ROUTER=thingsix-router
+NAME=router-eu868
 PORT=3200
 MY_CONFIG_FILE=config.yaml
 RELEASE_URL='https://api.github.com/repos/ThingsIXFoundation/packet-handling/releases'
@@ -46,7 +47,7 @@ do
       f) ROUTER=${OPTARG};;
       p) PORT=${OPTARG};;
       c) MY_CONFIG_FILE=${OPTARG};;
-      n) NET=${OPTARG};;
+      n) NAME=${OPTARG};;
    esac
 done
 
@@ -55,7 +56,7 @@ done
 date
 
 # Autodetect running image version and set arch
-version_running_image=$(docker container inspect -f '{{.Config.Image}}' $ROUTER | awk -F: '{print $2}')
+version_running_image=$(docker container inspect -f '{{.Config.Image}}' $NAME | awk -F: '{print $2}')
 
 # Detect latest release at Github
 release=$(curl -s $RELEASE_URL | jq -r '.[0].tag_name')
@@ -78,14 +79,13 @@ echo "Deleting old router images..."
 for a in `docker images ghcr.io/thingsixfoundation/packet-handling/router | grep "ghcr.io/thingsixfoundation/packet-handling/router" | awk '{print $3}'`; do
    image_cleanup=$(docker images | grep $a | awk '{print $2}')
    #change this to $running_image if you want to keep the last 2 images
-   if [ $image_cleanup = $version_running_image ]; then
-      continue
-   else
-      echo "Cleaning up: " $image_cleanup
-      #docker image rm $a
-   fi
+	if [ $image_cleanup = $miner_latest ]; then
+		continue
+        else
+		echo "Cleaning up: " $image_cleanup
+	       	docker image rm $a
+        fi
 done
-
 echo "Provisioning new router version..."
 
-#docker run -d -p $PORT:$PORT/tcp --restart unless-stopped -v /etc/thingsix-router/:/etc/$MY_CONFIG_FILE --name router-eu868 $DOCKER_PULL_URL$version_git
+#docker run -d -p $PORT:$PORT/tcp --restart unless-stopped -v /etc/thingsix-router/:/etc/$MY_CONFIG_FILE --name $NAME $DOCKER_PULL_URL$version_git
