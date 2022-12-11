@@ -7,12 +7,12 @@ The following payload decoders are adapted versions of the original ones that ha
 ### Dragino
 
 #### LHT65
-[lht65_decoder.js](lht65_decoder.js)
+[Dragino_lht65_decoder.js](Dragino_lht65_decoder.js)
 
 ### Vega
 
 #### TS-12
-[VegaTS-12_decoder.js](VegaTS-12_decoder.js)
+[Vega_TS-12_decoder.js](Vega_TS-12_decoder.js)
 
 # Disclaimer
 These payload decoders are distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
