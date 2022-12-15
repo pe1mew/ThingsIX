@@ -26,8 +26,10 @@
 #
 
 # Set default values
+ROUTER=thingsix-router
 NAME=router-eu868
 PORT=3200
+MY_CONFIG_FILE=config.yaml
 RELEASE_URL='https://api.github.com/repos/ThingsIXFoundation/packet-handling/releases'
 DOCKER_PULL_URL='ghcr.io/thingsixfoundation/packet-handling/router:'
 
@@ -39,10 +41,12 @@ if [ $? -ne 0 ]; then
 fi
 
 # Read switches to override any default values for non-standard configs
-while getopts p:n: flag
+while getopts f:p:c:n: flag
 do
    case "${flag}" in
+      f) ROUTER=${OPTARG};;
       p) PORT=${OPTARG};;
+      c) MY_CONFIG_FILE=${OPTARG};;
       n) NAME=${OPTARG};;
    esac
 done
@@ -82,7 +86,4 @@ for a in `docker images ghcr.io/thingsixfoundation/packet-handling/router | grep
 	       	docker image rm $a
         fi
 done
-echo "Provisioning new router version..."
 
-# docker run -d -p $PORT:$PORT/tcp --restart unless-stopped -v /etc/thingsix-router/:/etc/$MY_CONFIG_FILE --name $NAME $DOCKER_PULL_URL$version_git
-docker run -d -p $PORT:$PORT/tcp --restart unless-stopped -v /etc/thingsix-router/:/etc/thingsix-router/ --name $NAME $DOCKER_PULL_URL$version_git
