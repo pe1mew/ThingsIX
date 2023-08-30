@@ -337,6 +337,8 @@ docker exec thingsix-forwarder ./forwarder gateway import-and-push <walletAddres
  4. Onboard your gateway using [the instructions at ThingsIX documentation](https://docs.thingsix.com/for-gateway-owners/onboarding-gateway). 
 
 # Automate updating ThingsIX Forwarder
+**Please note that although unattended updates are convenient, sometimes updates are unwanted. There is a risk involved with unatteneded updates.**
+
 To automate updating the ThingsIX forwarder Crontab can be used. Crontab will execute update script daily at 01:00. 
 
  1. To install the update edit crontab with command `crontab -e`. A editor will start (Nano) and add the following lines at the end of the file: 
@@ -355,4 +357,3 @@ Released forwarder version: 1.2.1
 already on the latest version.
 ```
 
-**Please note that although unattended updates are convenient, sometimes updates are unwanted. There is a risk involved wit unatteneded updates.**
