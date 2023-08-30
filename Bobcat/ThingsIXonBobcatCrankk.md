@@ -305,7 +305,15 @@ docker run -d --restart always --name $FORWARDER --publish $GWPORT:$GWPORT/udp -
 CONTAINER ID   IMAGE                                                        COMMAND                  CREATED          STATUS          PORTS                    NAMES
 ad4feba89b0b   ghcr.io/thingsixfoundation/packet-handling/forwarder:1.2.1   "./forwarder --confi…"   26 minutes ago   Up 24 minutes   0.0.0.0:1690->1690/udp   thingsix-forwarder
 ```
+The local dashboard will also present the new ThingsIX forwarder container: 
+
+![Overview of containers in local dashboard](DockerContainerOverviewLocalDashboard.png)
+
+
  8. Configure the Crankk gateway to forward to the ThingsIX forwarder by adding `,127.0.0.1:1690` to the _"forwards To:"_ rule. The complete rule will be: `127.0.0.1:1700,127.0.0.1:1680,127.0.0.1:1690`.
+
+![Configure gateway and mutiplexing](GatewayConfigurationLocalDashboard.png)
+
  9. Click _save_ and the gateway will restart which will result in your SSH connection to terminate. 
  10. After restart login with ssh.
  11. When the gateway is restarted, ensure that the gateway is forwarding to the ThingsIX forwarder. In the file `/usr/thingsix-forwarder/unknown_gateways.yaml` you see something like this: 
