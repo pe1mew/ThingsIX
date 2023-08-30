@@ -322,6 +322,8 @@ The local dashboard will also present the new ThingsIX forwarder container:
   first_seen: 1693250188
 ```
  When this is okay, you are ready to onboard your gateway. 
+ 
+> For  analysis of the log in the ThingsIX-frowarder container the following command can be used:  `docker logs thingsix-forwarder -f -n 10`. This will present the latest 10 entries in the log and will show all new entries in the log. The log presentation is terminated by pressing `ctrl-c`. 
 
 # Onboard gateway
 To onboard the gateway to ThingsIX you need a Wallet on Polygon. Use the public address of this wallet in the following commands. This command will import all gateways in file `/usr/thingsix-forwarder/unknown_gateways.yaml` and push them to ThingsIX. 
