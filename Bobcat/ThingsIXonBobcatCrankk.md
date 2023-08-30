@@ -5,7 +5,7 @@ The Crankk image for the Bobcat is installed on eMMC and mounted on the file sys
 
 This installation uses a script for both installing and updating the ThingsIX forwarder on the Bobcat.
 
-**For this howto intermediate knowledge of Linux is helpful.** 
+**For this howto, intermediate knowledge of Linux is helpful.** 
 
 
 ## Preparations
@@ -210,7 +210,7 @@ database:
         enableLogging: false
 ```
  3. Create a file named `thingsixupdater.sh` and fill it with the following script:
-# Installation and update script
+### thingsixupdater.sh
 ```
 # Script for auto-updating the ThinsIX forwarder to the latest release.
 #
