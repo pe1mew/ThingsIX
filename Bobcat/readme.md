@@ -1,5 +1,5 @@
 # Installing ThingsIX on a [Bobcat Miner 300](https://crankk.io/guides/) with Crankk image
-Script for auto updating the ThinsIX forwarder to that latest release.
+Instructions for running ThingsIX forwarder on a Bobcat Miner 300.
 
 ## DISCLAIMER
 This repository is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
