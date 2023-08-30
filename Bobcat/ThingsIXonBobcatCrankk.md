@@ -1,23 +1,23 @@
 # Installing ThingsIX on a [Bobcat Miner 300](https://crankk.io/guides/) with Crankk image
-For this howto it is assumed that the Crankk Image for Bobcat [Bobcat Miner 300 (G290/G295- RK3566 - 2GB)](https://crankk.io/guides/) successfully is installed and running.
+For this howto, it is assumed that the Crankk Image for Bobcat [Bobcat Miner 300 (G290/G295- RK3566 - 2GB)](https://crankk.io/guides/) successfully is installed and running.
 
-The Crankk image for the Bobcat is installed on eMMC and mounted on the file system in RO and RW parts. Therefore we need to install ThingsIX forwarder in such a plcae that it is presistent over a reboot of the OS. The location used is `/usr`.
+The Crankk image for the Bobcat is installed on eMMC and mounted on the file system in RO and RW parts. Therefore we need to install ThingsIX forwarder in such a place that it is persistent over a reboot of the OS. The location used is `/usr`.
 
-This installtion uses a script for both installing and updating the ThingsIX forwarder on the Bobcat.
+This installation uses a script for both installing and updating the ThingsIX forwarder on the Bobcat.
 
 **For this howto intermediate knowledge of Linux is helpful.** 
 
 
 ## Preparations
  0. SSH into the Bobcat with user `crankk` and password `B@tch0n3`
- 1. Make directory `/usr/thingsix-forwarder`
+ 1. Make a directory `/usr/thingsix-forwarder`
  2. Create a file config.yaml and fill it with the following content:
 ### config.yaml
 ```
 # Copyright 2022 Stichting ThingsIX Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
+# You may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
@@ -31,7 +31,7 @@ This installtion uses a script for both installing and updating the ThingsIX for
 # SPDX-License-Identifier: Apache-2.0
 
 forwarder:
-    # described backend for the gateways
+    # Described backend for the gateways
     backend:
         # Use Semtech UDP forwarder backend
         semtech_udp:
@@ -212,7 +212,7 @@ database:
  3. Create a file named `thingsixupdater.sh` and fill it with the following script:
 # Installation and update script
 ```
-# Script for auto updating the ThinsIX forwarder to the latest release.
+# Script for auto-updating the ThinsIX forwarder to the latest release.
 #
 # This script was inspired by the scripts of Wheaties466:
 # https://github.com/Wheaties466/helium_miner_scripts/blob/master/miner_latest.sh
@@ -282,7 +282,7 @@ echo "Deleting old forwarder images..."
 
 for a in `docker images ghcr.io/thingsixfoundation/packet-handling/forwarder | grep "ghcr.io/thingsixfoundation/packet-handling/forwarder" | awk '{print $3}'`; do
         image_cleanup=$(docker images | grep $a | awk '{print $2}')
-        #change this to $running_image if you want to keep the last 2 images
+        # Change this to $running_image if you want to keep the last 2 images
         if [ $image_cleanup = $miner_latest ]; then
                 continue
         else
@@ -297,7 +297,7 @@ echo "Provisioning new forwarder version..."
 docker run -d --restart always --name $FORWARDER --publish $GWPORT:$GWPORT/udp -v /data/usr/thingsix-forwarder:/etc/thingsix-forwarder $DOCKER_PULL_URL$version_git --config /etc/thingsix-forwarder/$MY_CONFIG_FILE --net $NET
 
 ```
- 5. Make the scipt executeable with the command `chomd +x thingsixupdater.sh`
+ 5. Make the script executable with the command `chmod +x thingsixupdater.sh`
  6. Execute the script to install the ThingsIX forwarder container and run it. `./thingsixupdater.sh`
  7. Check if the docker container for ThingsIX forwarder is running with the command: `docker ps`.
  When all is OK, the following line can be found: 
@@ -306,14 +306,14 @@ CONTAINER ID   IMAGE                                                        COMM
 ad4feba89b0b   ghcr.io/thingsixfoundation/packet-handling/forwarder:1.2.1   "./forwarder --confi…"   26 minutes ago   Up 24 minutes   0.0.0.0:1690->1690/udp   thingsix-forwarder
 ```
  8. Configure the Crankk gateway to forward to the ThingsIX forwarder by adding `,127.0.0.1:1690` to the _"forwards To:"_ rule. The complete rule will be: `127.0.0.1:1700,127.0.0.1:1680,127.0.0.1:1690`.
- 9. Click _save_ and the gateway will restart which will result in your ssh connection to terminate. 
+ 9. Click _save_ and the gateway will restart which will result in your SSH connection to terminate. 
  10. After restart login with ssh.
- 11. When the gateway is restarted, ensure that the gateway is forwarding to the ThingsIX forwarder. In file `/usr/thingsix-forwarder/unknown_gateways.yaml` you see something like: 
+ 11. When the gateway is restarted, ensure that the gateway is forwarding to the ThingsIX forwarder. In the file `/usr/thingsix-forwarder/unknown_gateways.yaml` you see something like this: 
 ```
 - local_id: 7eea21fffee636f0
   first_seen: 1693250188
 ```
- When this is ok, you are ready to onboard your gateway. 
+ When this is okay, you are ready to onboard your gateway. 
 
 # Onboard gateway
 To onboard the gateway to ThingsIX you need a Wallet on Polygon. Use the public address of this wallet in the following commands. This command will import all gateways in file `/usr/thingsix-forwarder/unknown_gateways.yaml` and push them to ThingsIX. 
@@ -322,12 +322,12 @@ To onboard the gateway to ThingsIX you need a Wallet on Polygon. Use the public 
 ```
 docker exec thingsix-forwarder ./forwarder gateway import-and-push <walletAddressPublicKey> --json
 ```
- 2. It is good practice to save the json that is returned from the command:
+ 2. It is good practice to save the JSON that is returned from the command:
 ### Json returned on onboard
 ```
 [{"address":"0xcf107800833233368ae938531ac3d246bf802651","chainId":137,"gatewayId":"0x7923162fc625809c2667a555b92e78a2493563c727e2cb7341c22dcc50b3d038","localId":"7eea21fffee636f0","networkId":"303e5a2b071f63e4","owner":"<walletAddressPublicKey>","signature":"0x276c784dd90fac237f355454ae55dabe117df9a7679c52d636ced271527c5e955c9c475e7eef737069d763bb25a729fd06a452b356ae7e3c136186e58abdc96f1c","version":0}]
 ```
- 3. The result of the onboarding command will produce teh local gatewayEUI and the private key for this gateway in file `/usr/thingsix-forwarder/gateways.yaml`. **Secure the content of this file for recovery purpose!**
+ 3. The result of the onboarding command will produce teh local gatewayEUI and the private key for this gateway in file `/usr/thingsix-forwarder/gateways.yaml`. **Secure the content of this file for recovery purposes!**
 ### gateways.yaml
 ```
 - local_id: 7eea21fffee636f0
@@ -337,18 +337,18 @@ docker exec thingsix-forwarder ./forwarder gateway import-and-push <walletAddres
  4. Onboard your gateway using [the instructions at ThingsIX documentation](https://docs.thingsix.com/for-gateway-owners/onboarding-gateway). 
 
 # Automate updating ThingsIX Forwarder
-**Please note that although unattended updates are convenient, sometimes updates are unwanted. There is a risk involved with unatteneded updates.**
+**Please note that although unattended updates are convenient, sometimes updates are unwanted. There is a risk involved with unattended updates.**
 
-To automate updating the ThingsIX forwarder Crontab can be used. Crontab will execute update script daily at 01:00. 
+To automate updating the ThingsIX forwarder Crontab can be used. Crontab will execute the update script daily at 01:00. 
 
- 1. To install the update edit crontab with command `crontab -e`. A editor will start (Nano) and add the following lines at the end of the file: 
+ 1. To install the update edit crontab with the command `crontab -e`. An editor will start (Nano) and add the following lines at the end of the file: 
 ```
 # Check for updates on ThingsIX forwarder daily at 1
 0 1 * * * cd /usr/thingsix-forwarder && ./thingsixupdater.sh >> thingsixupdater.log
 ```
  2. Quit editing crontab by invoking key `ctrl-x` followed by `y`(yes) followed by `enter` to write the changes to disk. 
 
-The result of the update is written to log file for analysis. 
+The result of the update is written into a log file for analysis. 
 ### thingsixupdater.log
 ```
 Wed Aug 30 09:27:10 UTC 2023
